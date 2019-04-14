@@ -6,15 +6,17 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
+  <input type="text" id="e_money" placeholder="対応電子マネー">
+  <input type="text" id="card" placeholder="カード対応の有無">
   <input type="text" id="key" placeholder="アクセスキーを入力"><input type="button" id="submit" value="送信">
   <table id="table" border="1">
-    <tr><th>店舗名</th><th>アクセス</th></tr>
+    <tr><th>【店舗名】</th><th>【営業時間】</th><th>【休業日】</th></tr>
   </table>
 
   <script>
     function showResult( result ) {
       for ( var i in result.rest ) {
-        $("#table").append("<tr><td>" + result.rest[ i ].name + "</td><td>" + result.rest[ i ].opentime )
+        $("#table").append("<tr><td>" + result.rest[ i ].name + "</td><td>" + result.rest[ i ].opentime + "</td><td>" + JSON.stringify(result.rest[ i ].e_money))
       }
     }
 
@@ -23,13 +25,16 @@
       var params = {
         keyid: "",
         format: "json",
-        latitude: 34.702492,
-        longitude: 135.495965,
-        range: 3
+        e_money: ""
+        //card: 1
+        //latitude: 34.702492,
+        //longitude: 135.495965,
+        //range: 3
       }
 
       $("#submit").on("click", function () {
         params.keyid = $("#key").val()
+        params.lunch = $("#e_money").val()
         $.getJSON( url, params, function( result ) {
           showResult( result )
         })
